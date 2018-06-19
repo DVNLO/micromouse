@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="drive\motor\motor.cpp">
+      <Filter>drive\motor</Filter>
+    </ClCompile>
+    <ClCompile Include="drive\motor\state\state.cpp">
+      <Filter>drive\motor\state</Filter>
+    </ClCompile>
+    <ClCompile Include="drive\pwm\pwm.cpp">
+      <Filter>drive\pwm</Filter>
+    </ClCompile>
+    <ClCompile Include="utility\utility.cpp">
+      <Filter>utility</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="drive">
+      <UniqueIdentifier>{e399583d-09d0-4107-9d42-782387cb5bb4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="drive\motor">
+      <UniqueIdentifier>{1b291b7d-509d-4779-8f40-9731a2677677}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="drive\motor\state">
+      <UniqueIdentifier>{2295d848-2e38-4dc0-a4fc-5f07c437f9c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="drive\pwm">
+      <UniqueIdentifier>{ed82e1aa-ec0a-4c25-8e9c-0ebcac737f3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utility">
+      <UniqueIdentifier>{1db69a28-8b5c-49c4-9d15-3cb16fb3e7f9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="drive\motor\motor.h">
+      <Filter>drive\motor</Filter>
+    </ClInclude>
+    <ClInclude Include="drive\motor\motor_constants.h">
+      <Filter>drive\motor</Filter>
+    </ClInclude>
+    <ClInclude Include="drive\motor\state\state.h">
+      <Filter>drive\motor\state</Filter>
+    </ClInclude>
+    <ClInclude Include="drive\pwm\pwm.h">
+      <Filter>drive\pwm</Filter>
+    </ClInclude>
+    <ClInclude Include="drive\pwm\pwm_constants.h">
+      <Filter>drive\pwm</Filter>
+    </ClInclude>
+    <ClInclude Include="utility\utility.h">
+      <Filter>utility</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

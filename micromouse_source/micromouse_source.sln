@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2018
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "micromouse_source", "micromouse_source\micromouse_source.vcxproj", "{A4895948-84EA-4CF8-8CD3-3857449939A3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM = Debug|ARM
+		Release|ARM = Release|ARM
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A4895948-84EA-4CF8-8CD3-3857449939A3}.Debug|ARM.ActiveCfg = Debug|ARM
+		{A4895948-84EA-4CF8-8CD3-3857449939A3}.Debug|ARM.Build.0 = Debug|ARM
+		{A4895948-84EA-4CF8-8CD3-3857449939A3}.Release|ARM.ActiveCfg = Release|ARM
+		{A4895948-84EA-4CF8-8CD3-3857449939A3}.Release|ARM.Build.0 = Release|ARM
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2A76CCCF-0FD6-430F-B235-2E0AC4E8B215}
+	EndGlobalSection
+EndGlobal
