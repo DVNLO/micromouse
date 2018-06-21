@@ -1,6 +1,5 @@
-#pragma once
-#include "../utility/Utility.h"
-#include <wiringPi.h>
+#ifndef MICROMOUSE_MOTOR_STATE_H
+#define MICROMOUSE_MOTOR_STATE_H
 
 namespace Drive
 {
@@ -17,3 +16,5 @@ namespace Drive
 	bool operator!=(const State& left, const State& right);
 	
 }
+
+#endif // MICROMOUSE_MOTOR_STATE_H

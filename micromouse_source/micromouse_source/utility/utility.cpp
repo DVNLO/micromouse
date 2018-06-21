@@ -1,4 +1,6 @@
-#include "Utility.h"
+#include "utility.h"
+#include <wiringPi.h>
+#include <string>
 
 const extern std::string Utility::INVALID_DIGITAL_PIN_VALUE = "invalid digital pin value";
 const extern std::string Utility::INVALID_PIN_INDEX = "invalid pin index";

@@ -1,3 +1,8 @@
+#ifndef MICROMOUSE_MOTOR_CONSTANTS_H
+#define MICROMOUSE_MOTOR_CONSTANTS_H
+#include <string>
+#include <wiringPi.h>
+
 const int Drive::Motor::DEFAULT_PIN = -1;
 const int Drive::Motor::ROTATE_FORWARD_CCW = 1;
 const int Drive::Motor::ROTATE_BACKWARD_CW = -1;
@@ -46,3 +51,5 @@ A stop event will occur in a single motor state (H: High, L: LOW):
 1: IN1: L | IN2: L | PWM: H | STBY: H
 *****************************************************************************/
 const Drive::State Drive::Motor::STOP{ LOW, LOW };
+
+#endif // MICROMOUSE_MOTOR_CONSTANTS_H

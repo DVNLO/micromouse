@@ -1,9 +1,10 @@
+#include "pwm.h"
+#include "pwm_constants.h"
+#include "../../utility/utility.h"
+#include <cmath>
+#include <stdexcept>
 #include <wiringPi.h>
 #include <wiringPiI2C.h>
-#include <cmath>
-#include "PWM.h"
-#include "PWM_constants.h"
-#include "../utility/Utility.h"
 
 /*
 Default initializes file descriptor handle to an erronous state.

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MICROMOUSE_PWM_CONSTANTS_H
+#define MICROMOUSE_PWM_CONSTANTS_H
 
 const char Drive::PWM::PCA9685_REG_MODE1 = 0x00;
 const char Drive::PWM::PCA9685_REG_MODE2 = 0x01;
@@ -42,3 +43,5 @@ const std::string Drive::PWM::FAILURE_TO_READ_REGISTER8 = "wiringPiI2CReadReg8()
 const std::string Drive::PWM::FAILURE_TO_WRITE_REGISTER8 = "wiringPiWriteReg8() failed";
 
 const std::string Drive::PWM::INVALID_FREQUENCY = "invalid frequency";
+
+#endif // MICROMOUSE_PWM_CONSTANTS_H

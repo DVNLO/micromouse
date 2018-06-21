@@ -1,5 +1,8 @@
-#include "Motor.h"
-#include "Motor_constants.h"
+#include "motor.h"
+#include "motor_constants.h"
+#include "../../utility/utility.h"
+#include <stdexcept>
+#include <wiringPi.h>
 
 /*
 Default constructs a motor object.
@@ -78,9 +81,12 @@ Returns true when this' state is equal to desired_state. Typically,
 validateState is called at the end of a function to verify state
 is properly set.
 */
-bool Drive::Motor::validateState(const State& desired_state) const
+bool Drive::Motor::validateState(const Drive::State& desired_state) const
 {
-	return (readState() == desired_state) ? true : throw std::runtime_error(INVALID_STATE_DIFFERENCE);
+	if (readState() == desired_state)
+		return true;
+	else
+		throw std::runtime_error(INVALID_STATE_DIFFERENCE);
 }
 
 /*

@@ -1,5 +1,7 @@
-#pragma once
+#ifndef MICROMOUSE_PWM_H
+#define MICROMOUSE_PWM_H
 #include <string>
+
 //http://wiringpi.com/reference/i2c-library/
 //https://github.com/WiringPi/WiringPi/tree/master/wiringPi
 //https://learn.sparkfun.com/tutorials/raspberry-pi-spi-and-i2c-tutorial
@@ -78,3 +80,5 @@ namespace Drive
 		const static std::string INVALID_FREQUENCY;
 	};
 }
+
+#endif // MICROMOUSE_PWM_H

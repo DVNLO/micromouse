@@ -1,9 +1,8 @@
-#pragma once
-#include "State.h"
-#include "../utility/Utility.h"
-#include <wiringPi.h>
-#include <stdexcept>
+#ifndef MICROMOUSE_MOTOR_H
+#define MICROMOUSE_MOTOR_H
+#include "state/state.h"
 #include <string>
+
 
 namespace Drive
 {
@@ -32,10 +31,10 @@ namespace Drive
 	private:
 		bool isValidState() const;
 		bool validateState() const;
-		bool validateState(const State& desired_state) const;
+		bool validateState(const Drive::State& desired_state) const;
 
-		State readState() const;
-		void writeState(const State& new_state) const;
+		Drive::State readState() const;
+		void writeState(const Drive::State& new_state) const;
 
 		bool rotate(const int& direction, const int& speed, const int& duration) const;
 		
@@ -64,3 +63,5 @@ namespace Drive
 		const static Drive::State STOP;
 	};
 }
+
+#endif // MICROMOUSE_MOTOR_H
