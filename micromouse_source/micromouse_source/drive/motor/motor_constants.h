@@ -3,6 +3,9 @@
 #include <string>
 #include <wiringPi.h>
 
+const int Drive::Motor::TERMINAL_ONE = 1;
+const int Drive::Motor::TERMINAL_TWO = 2;
+
 const int Drive::Motor::DEFAULT_PIN = -1;
 const int Drive::Motor::ROTATE_FORWARD_CCW = 1;
 const int Drive::Motor::ROTATE_BACKWARD_CW = -1;

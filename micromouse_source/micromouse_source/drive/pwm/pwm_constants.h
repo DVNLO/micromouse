@@ -1,5 +1,6 @@
 #ifndef MICROMOUSE_PWM_CONSTANTS_H
 #define MICROMOUSE_PWM_CONSTANTS_H
+#include <string>
 
 const char Drive::PWM::PCA9685_REG_MODE1 = 0x00;
 const char Drive::PWM::PCA9685_REG_MODE2 = 0x01;

@@ -19,8 +19,7 @@ Constructs a motor object using the digital_pin arguments.
 */
 Drive::Motor::Motor(const int& gpio_digital_pin_in1, const int& gpio_digital_pin_in2)
 {
-	setPin(1, gpio_digital_pin_in1);
-	setPin(2, gpio_digital_pin_in2);
+	setPins(gpio_digital_pin_in1, gpio_digital_pin_in2);
 }
 
 /*
@@ -28,7 +27,8 @@ Returns true when both pins are set to the arguments.
 */
 bool Drive::Motor::setPins(const int& gpio_digital_pin_in1, const int& gpio_digital_pin_in2)
 {
-	return setPin(1, gpio_digital_pin_in1) && setPin(2, gpio_digital_pin_in2);
+	return setPin(TERMINAL_ONE, gpio_digital_pin_in1) 
+		&& setPin(TERMINAL_TWO, gpio_digital_pin_in2);
 }
 
 /*
@@ -40,12 +40,12 @@ bool Drive::Motor::setPin(const int& motor_digital_pin_id, const int& gpio_digit
 	{
 		throw std::invalid_argument(Utility::INVALID_PIN_INDEX);
 	}
-	if (motor_digital_pin_id == 1)
+	if (motor_digital_pin_id == TERMINAL_ONE)
 	{
 		digital_pin_in1_ = gpio_digital_pin;
 		return digital_pin_in1_ == gpio_digital_pin ? true : throw std::runtime_error(FAILURE_TO_SET_PIN);
 	}
-	else if (motor_digital_pin_id == 2)
+	else if (motor_digital_pin_id == TERMINAL_TWO)
 	{
 		digital_pin_in2_ = gpio_digital_pin;
 		return digital_pin_in2_ == gpio_digital_pin ? true : throw std::runtime_error(FAILURE_TO_SET_PIN);
@@ -83,7 +83,8 @@ is properly set.
 */
 bool Drive::Motor::validateState(const Drive::State& desired_state) const
 {
-	if (readState() == desired_state)
+	State read_state = readState();
+	if (read_state == desired_state)
 		return true;
 	else
 		throw std::runtime_error(INVALID_STATE_DIFFERENCE);

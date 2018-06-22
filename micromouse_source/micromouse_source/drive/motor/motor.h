@@ -29,6 +29,9 @@ namespace Drive
 		bool stop(const int& duration) const;
 
 	private:
+		int digital_pin_in1_;
+		int digital_pin_in2_;
+
 		bool isValidState() const;
 		bool validateState() const;
 		bool validateState(const Drive::State& desired_state) const;
@@ -37,11 +40,10 @@ namespace Drive
 		void writeState(const Drive::State& new_state) const;
 
 		bool rotate(const int& direction, const int& speed, const int& duration) const;
-		
-		int digital_pin_in1_;
-		int digital_pin_in2_;
 	
-	private:
+		const static int TERMINAL_ONE;
+		const static int TERMINAL_TWO;
+
 		const static int DEFAULT_PIN;
 		const static int ROTATE_FORWARD_CCW;
 		const static int ROTATE_BACKWARD_CW;
