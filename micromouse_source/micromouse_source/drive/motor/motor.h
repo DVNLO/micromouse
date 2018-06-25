@@ -1,7 +1,9 @@
 #ifndef MICROMOUSE_MOTOR_H
 #define MICROMOUSE_MOTOR_H
+#include "command/command.h"
 #include "state/state.h"
 #include <string>
+
 
 
 namespace Drive
@@ -10,39 +12,31 @@ namespace Drive
 	{
 	public:
 		Motor();
-		Motor(const int& gpio_digital_pin_in1, const int& gpio_digital_pin_in2);
-		bool setPins(const int& gpio_digital_pin_in1, const int& gpio_digital_pin_in2);
-		bool setPin(const int& motor_digital_pin_id, const int& gpio_digital_pin);
+		Motor(const int& pin1, const int& pin2);
+		void setPins(const int& pin1, const int& pin2);
+		void setPin(const int& pin_id, const int& pin);
 
-		bool forward() const;
-		bool forward(const int& speed) const;
-		bool forward(const int& speed, const int& duration) const;
-		
-		bool backward() const;
-		bool backward(const int& speed) const;
-		bool backward(const int& speed, const int& duration) const;
-				
-		bool shortBrake();
-		bool shortBrake(const int& duration);
-
-		bool stop() const;
-		bool stop(const int& duration) const;
+		void forward() const;	
+		void backward() const;
+		void shortBrake();
+		void stop() const;
 
 	private:
-		int digital_pin_in1_;
-		int digital_pin_in2_;
+		int pin1_;
+		int pin2_;
 
-		bool isValidState() const;
-		bool validateState() const;
-		bool validateState(const Drive::State& desired_state) const;
+		bool isInitialized() const;
+		void validateInitialization() const;
+		bool isCurrentState(const Drive::State& desired_state) const;
 
-		Drive::State readState() const;
+		State readState() const;
 		void writeState(const Drive::State& new_state) const;
 
-		bool rotate(const int& direction, const int& speed, const int& duration) const;
+		void rotate(const Drive::State& desired_state) const;
 	
-		const static int TERMINAL_ONE;
-		const static int TERMINAL_TWO;
+	public:
+		const static int PIN_ONE_ID;
+		const static int PIN_TWO_ID;
 
 		const static int DEFAULT_PIN;
 		const static int ROTATE_FORWARD_CCW;
@@ -54,6 +48,7 @@ namespace Drive
 		const static std::string INVALID_STATE_DIFFERENCE;
 		const static std::string INVALID_ROTATION_DIRECTION;
 		const static std::string INVALID_MOTOR_PIN_ID;
+		const static std::string INVALID_COMMAND_PACKET_OPERATION;
 		
 		const static std::string FAILURE_TO_READ_STATE;
 		const static std::string FAILURE_TO_WRITE_STATE;

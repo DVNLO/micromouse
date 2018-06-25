@@ -5,8 +5,8 @@ namespace Drive
 {
 	struct State
 	{
-		int digital_pin_in1_value;
-		int digital_pin_in2_value;
+		int pin1_value;
+		int pin2_value; 
 		State();
 		State(const int& in1, const int& in2);
 		friend bool operator==(const State& left, const State& right);

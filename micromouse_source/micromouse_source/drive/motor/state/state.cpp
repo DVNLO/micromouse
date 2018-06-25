@@ -5,16 +5,16 @@
 
 Drive::State::State() 
 {
-	digital_pin_in1_value = 0;
-	digital_pin_in2_value = 0;
+	pin1_value = LOW;
+	pin2_value = LOW;
 }
 
-Drive::State::State(const int& in1, const int& in2)
+Drive::State::State(const int& value1, const int& value2)
 {
-	if (Utility::isValidDigitalPinValue(in1) && Utility::isValidDigitalPinValue(in2))
+	if (Utility::isValidDigitalPinValue(value1) && Utility::isValidDigitalPinValue(value2))
 	{
-		digital_pin_in1_value = in1;
-		digital_pin_in2_value = in2;
+		pin1_value = value1;
+		pin2_value = value2;
 	}
 	else
 	{
@@ -25,8 +25,8 @@ Drive::State::State(const int& in1, const int& in2)
 bool Drive::operator==(const Drive::State& left, const Drive::State& right)
 {
 	return !(
-		(left.digital_pin_in1_value != right.digital_pin_in1_value) ||
-		(left.digital_pin_in2_value != right.digital_pin_in2_value)
+		(left.pin1_value != right.pin1_value) ||
+		(left.pin2_value != right.pin2_value)
 		);
 }
 

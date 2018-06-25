@@ -5,102 +5,92 @@
 #include <wiringPi.h>
 
 /*
-Default constructs a motor object.
+Default constructs a motor object. Initializes class
+data members pin1_ and pin2_ to DEFAULT_PIN.
 */
 Drive::Motor::Motor() 
 {
-	digital_pin_in1_ = DEFAULT_PIN;
-	digital_pin_in2_ = DEFAULT_PIN;
-}
-
-
-/*
-Constructs a motor object using the digital_pin arguments.
-*/
-Drive::Motor::Motor(const int& gpio_digital_pin_in1, const int& gpio_digital_pin_in2)
-{
-	setPins(gpio_digital_pin_in1, gpio_digital_pin_in2);
+	pin1_ = DEFAULT_PIN;
+	pin2_ = DEFAULT_PIN;
 }
 
 /*
-Returns true when both pins are set to the arguments.
+Constructs a motor object using pin1 and pin2 arguments.
 */
-bool Drive::Motor::setPins(const int& gpio_digital_pin_in1, const int& gpio_digital_pin_in2)
+Drive::Motor::Motor(const int& pin1, const int& pin2)
 {
-	return setPin(TERMINAL_ONE, gpio_digital_pin_in1) 
-		&& setPin(TERMINAL_TWO, gpio_digital_pin_in2);
+	setPins(pin1, pin2);
 }
 
 /*
-Returns true when digital_pin is set to gpio_digital_pin
+Calls setPin() to assign pins to pin1 and pin2.
 */
-bool Drive::Motor::setPin(const int& motor_digital_pin_id, const int& gpio_digital_pin)
+void Drive::Motor::setPins(const int& pin1, const int& pin2)
 {
-	if (!Utility::isValidPinIndex(gpio_digital_pin))
-	{
-		throw std::invalid_argument(Utility::INVALID_PIN_INDEX);
-	}
-	if (motor_digital_pin_id == TERMINAL_ONE)
-	{
-		digital_pin_in1_ = gpio_digital_pin;
-		return digital_pin_in1_ == gpio_digital_pin ? true : throw std::runtime_error(FAILURE_TO_SET_PIN);
-	}
-	else if (motor_digital_pin_id == TERMINAL_TWO)
-	{
-		digital_pin_in2_ = gpio_digital_pin;
-		return digital_pin_in2_ == gpio_digital_pin ? true : throw std::runtime_error(FAILURE_TO_SET_PIN);
-	}
+	setPin(PIN_ONE_ID, pin1);
+	setPin(PIN_TWO_ID, pin2);
+}
+
+/*
+Assigns class data member pin1_ or pin2_ to pin. Utilizes
+pin_id to determine which data member to assign pin too. 
+Throws invalid_argument exception when an invalid pin
+or an invalid pin_id is found.
+*/
+void Drive::Motor::setPin(const int& pin_id, const int& pin)
+{
+	if (!Utility::isValidPin(pin))
+		throw std::invalid_argument(Utility::INVALID_PIN);
+	if (pin_id == PIN_ONE_ID)
+		pin1_ = pin;
+	else if (pin_id == PIN_TWO_ID)
+		pin2_ = pin;
 	else
-	{
 		throw std::invalid_argument(INVALID_MOTOR_PIN_ID);
-	}
-}
-
-
-
-/*
-Returns true when both digital_pins have a value between 0 and 40, inclusive.
-*/
-bool Drive::Motor::isValidState() const
-{
-	return (Utility::isValidPinIndex(digital_pin_in1_) && Utility::isValidPinIndex(digital_pin_in2_));
 }
 
 /*
-Returns true when state is valid. Otherwise, it throws. Typically, 
-validateState() is called at the beginning of a function to verify a 
-valid pre-condition.
+Returns true when both pins have a value between 0 and 40, inclusive.
 */
-bool Drive::Motor::validateState() const
+bool Drive::Motor::isInitialized() const
 {
-	return isValidState() ? true : throw std::runtime_error(INVALID_STATE_PIN_NOT_SET);
+	return !(pin1_ < Utility::GPIO_MIN_PIN_INDEX || pin1_ > Utility::GPIO_MAX_PIN_INDEX ||
+		pin2_ < Utility::GPIO_MIN_PIN_INDEX || pin2_ > Utility::GPIO_MAX_PIN_INDEX);
 }
 
 /*
-Returns true when this' state is equal to desired_state. Typically,
-validateState is called at the end of a function to verify state
-is properly set.
+Validates motor initialization by calliing isInitialized().
+Throws runtime_error if motor is not initialized. 
 */
-bool Drive::Motor::validateState(const Drive::State& desired_state) const
+void Drive::Motor::validateInitialization() const
 {
-	State read_state = readState();
-	if (read_state == desired_state)
+	if (!isInitialized())
+		throw std::runtime_error(INVALID_STATE_PIN_NOT_SET);
+}
+
+/*
+Returns true when the motor's current state is equal to desired_state.
+Throws a runtime_error exception when states are not equal.
+*/
+bool Drive::Motor::isCurrentState(const Drive::State& desired_state) const
+{
+	if (readState() == desired_state)
 		return true;
 	else
 		throw std::runtime_error(INVALID_STATE_DIFFERENCE);
 }
 
 /*
-Returns State read on digital_pins.
+Returns State read on pins.
 */
 Drive::State Drive::Motor::readState() const
 {
-	validateState();
+	validateInitialization();
 	State read_state;
 	try
 	{
-		read_state.digital_pin_in1_value = digitalRead(digital_pin_in1_);
-		read_state.digital_pin_in2_value = digitalRead(digital_pin_in2_);
+		read_state.pin1_value = digitalRead(pin1_);
+		read_state.pin2_value = digitalRead(pin2_);
 	}
 	catch (...)
 	{
@@ -110,171 +100,57 @@ Drive::State Drive::Motor::readState() const
 }
 
 /*
-Writes State on digital_pins. Note: no verification of the written state! 
+Writes State on digital_pins. 
 */
-void Drive::Motor::writeState(const State& new_state) const
+void Drive::Motor::writeState(const State& desired_state) const
 {
-	validateState();
-	digitalWrite(digital_pin_in1_, new_state.digital_pin_in1_value);
-	digitalWrite(digital_pin_in2_, new_state.digital_pin_in2_value);
-}
-
-/*
-Rotates motor forward at it's current speed for an indefinite duration.
-Returns true if state is FORWARD. 
-*/
-bool Drive::Motor::forward() const
-{
-	return rotate(ROTATE_FORWARD_CCW, SPEED_CONSTANT, DURATION_INDEFINITE);
-}
-
-/*
-Rotates the motor forward at a set speed for an indefinite duration.
-Returns true if state is FORWARD.
-*/
-bool Drive::Motor::forward(const int& speed) const
-{
-	return rotate(ROTATE_FORWARD_CCW, speed, DURATION_INDEFINITE);
-}
-
-/*
-Rotates the motor forward at a set speed for a set duration (miliseconds).
-Returns true if state is SHORT_BRAKE. Note: when a duration is specified
-the motor enters a "coasting" state post-duration.
-*/
-bool Drive::Motor::forward(const int& speed, const int& duration) const
-{
-	return rotate(ROTATE_FORWARD_CCW, speed, duration);
-}
-
-/*
-Rotates motor backward at it's current speed for an indefinite duration.
-Returns true if state is BACKWARD.
-*/
-bool Drive::Motor::backward() const
-{
-	return rotate(ROTATE_BACKWARD_CW, SPEED_CONSTANT, DURATION_INDEFINITE);
-}
-
-/*
-Rotates the motor backward at a set speed for an indefinite duration.
-Returns true if state is BACKWARD.
-*/
-bool Drive::Motor::backward(const int& speed) const
-{
-	return rotate(ROTATE_BACKWARD_CW, speed, DURATION_INDEFINITE);
-}
-
-/*
-Rotates the motor backward at a set speed for a set duration (miliseconds).
-Returns true if state is SHORT_BRAKE. Note: when a duration is specified
-the motor enters a "coasting" state post-duration.
-*/
-bool Drive::Motor::backward(const int& speed, const int& duration) const
-{
-	return rotate(ROTATE_BACKWARD_CW, speed, duration);
-}
-
-/*
-Short brakes indefinitely. Returns true if state is SHORT_BRAKE.
-*/
-bool Drive::Motor::shortBrake()
-{
-	return shortBrake(DURATION_INDEFINITE);
-}
-
-/*
-Short brakes for a set duration. Returns true if new_state is original_state
-when duration is greater than 0. Otherwise, returns true if state is SHORT_BRAKE.
-*/
-bool Drive::Motor::shortBrake(const int& duration)
-{
-	validateState();
-	if (duration > 0)
+	validateInitialization();
+	pinMode(pin1_, OUTPUT);
+	pinMode(pin2_, OUTPUT);
+	digitalWrite(pin1_, desired_state.pin1_value);
+	digitalWrite(pin2_, desired_state.pin2_value);
+	if (!isCurrentState(desired_state))
 	{
-		const State original_state = readState();
-		writeState(SHORT_BRAKE);
-		if (!validateState(SHORT_BRAKE))
-		{
-			throw std::runtime_error(FAILURE_TO_WRITE_STATE);
-		}
-		delay(duration);
-		writeState(original_state);
-		return validateState(original_state) ? true : throw std::runtime_error(INVALID_STATE_DIFFERENCE);
+		throw std::runtime_error(FAILURE_TO_WRITE_STATE);
 	}
-	writeState(SHORT_BRAKE);
-	return validateState(SHORT_BRAKE) ? true : throw std::runtime_error(FAILURE_TO_WRITE_STATE);
 }
 
 /*
-Stop indefinitely. Returns true when state is STOP.
+Rotates motor forward.
 */
-bool Drive::Motor::stop() const
+void Drive::Motor::forward() const
 {
-	return stop(DURATION_INDEFINITE);
+	rotate(FORWARD);
 }
 
 /*
-Stop for a set duration. Returns true if new_state is original_state
-when duration is greater than 0. Otherwise, returns true if state is STOP.
+Rotates motor backward.
 */
-bool Drive::Motor::stop(const int& duration) const
+void Drive::Motor::backward() const
 {
-	validateState();
-	if (duration > 0)
-	{
-		const State original_state = readState();
-		writeState(STOP);
-		if (!validateState(STOP))
-		{
-			throw std::runtime_error(FAILURE_TO_WRITE_STATE);
-		}
-		delay(duration);
-		writeState(original_state);
-		return validateState(original_state) ? true : throw std::runtime_error(INVALID_STATE_DIFFERENCE);
-	}
-	writeState(STOP);
-	return validateState(STOP) ? true : throw std::runtime_error(FAILURE_TO_WRITE_STATE);
+	rotate(BACKWARD);
 }
 
-
-bool Drive::Motor::rotate(const int& direction, const int& speed, const int& duration) const
+/*
+Short brakes motor.
+*/
+void Drive::Motor::shortBrake()
 {
-	validateState();
-	const State original_state = readState();
-	if (speed > 0)
-	{
-		//set speed
-		//validate speed set else throw
-	}
-	if (direction == ROTATE_FORWARD_CCW)
-	{
-		writeState(FORWARD);
-		if (!validateState(FORWARD))
-		{
-			throw std::runtime_error(FAILURE_TO_WRITE_STATE);
-		}
-	}
-	else if (direction == ROTATE_BACKWARD_CW)
-	{
-		writeState(BACKWARD);
-		if (!validateState(BACKWARD))
-		{
-			throw std::runtime_error(FAILURE_TO_WRITE_STATE);
-		}
-	}
-	else
-	{
-		throw std::invalid_argument(INVALID_ROTATION_DIRECTION);
-	}
-	if (duration > 0)
-	{
-		delay(duration);
-		writeState(original_state);
-		return validateState(original_state) ? true : throw std::runtime_error(INVALID_STATE_DIFFERENCE);
-	}
-	else
-	{
-		return !validateState(original_state) ? true : throw std::invalid_argument(INVALID_STATE_DIFFERENCE);
-	}
+	rotate(SHORT_BRAKE);
+}
+
+/*
+Stops motor.
+*/
+void Drive::Motor::stop() const
+{
+	rotate(STOP);
+}
+
+/*
+Writes a desired_state to the motor.
+*/
+void Drive::Motor::rotate(const Drive::State& desired_state) const
+{
+	writeState(desired_state);
 }

@@ -14,6 +14,9 @@
     <ClCompile Include="utility\utility.cpp">
       <Filter>utility</Filter>
     </ClCompile>
+    <ClCompile Include="drive\motor\command\command.cpp">
+      <Filter>drive\motor\command</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="drive">
@@ -30,6 +33,9 @@
     </Filter>
     <Filter Include="utility">
       <UniqueIdentifier>{1db69a28-8b5c-49c4-9d15-3cb16fb3e7f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="drive\motor\command">
+      <UniqueIdentifier>{46dc88ff-1158-4419-b2c6-62bad5e3e114}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -50,6 +56,9 @@
     </ClInclude>
     <ClInclude Include="utility\utility.h">
       <Filter>utility</Filter>
+    </ClInclude>
+    <ClInclude Include="drive\motor\command\command.h">
+      <Filter>drive\motor\command</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

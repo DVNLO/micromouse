@@ -16,14 +16,18 @@ void motorTest()
 	wiringPiSetup();
 	Drive::Motor A;
 	A.setPins(0, 2);
-	//A.writeState(Drive::Motor::FORWARD);
-	//Drive::State state = A.readState();
-	//A.setPins(0, 2);
 	A.forward();
+	delay(1000);
+	A.shortBrake();
+	delay(100);
 	A.stop();
-	//A.backward();
-	//A.shortBrake();
-	//A.stop();
+
+	A.backward();
+	delay(1000);
+	A.shortBrake();
+	delay(100);
+	A.stop();
+	
 }
 
 void pwmTest()
