@@ -19,8 +19,8 @@ namespace Drive
 		PWM();
 		PWM(const int& device_id);
 		void setup(const int& device_id);
-		void setFrequency(const double& frequency) const;
-		double getFrequency() const;
+		void setFrequency(const int& frequency) const;
+		int getFrequency() const;
 		//void setDuty() const;
 		//void getDuty() const;
 		bool sleep() const;
@@ -30,12 +30,13 @@ namespace Drive
 	private:
 		
 
-		void setPreScale(const double& frequency) const;
+		void setPreScale(const int& frequency) const;
 		int getPreScale() const;
 
 		int readRegister8(const int& register_address) const;
 		void writeRegister8(const int& register_address, const int& data) const;
-
+	
+	public:
 		const static char PCA9685_REG_MODE1;
 		const static char PCA9685_REG_MODE2;
 		const static char PCA9685_REG_SUBADDR1;
@@ -58,12 +59,12 @@ namespace Drive
 
 		const static char PCA9685_PRESCALE_MIN;
 		const static char PCA9685_PRESCALE_MAX;
-		const static char PCA9685_FREQ_MIN;
-		const static char PCA9685_FREQ_MAX;
+		const static int PCA9685_FREQ_MIN;
+		const static int PCA9685_FREQ_MAX;
 
-		const static char PCA9685_COUNTER_RANGE;
-		const static char PCA9685_DEFAULT_PERIOD;
-		const static char PCA9685_OSC_CLOCK_MHZ;
+		const static int PCA9685_COUNTER_RANGE;
+		const static int PCA9685_DEFAULT_PERIOD;
+		const static double PCA9685_OSC_CLOCK_MHZ;
 
 		const static char PCA9685_NUMREGS;
 		const static char PCA9685_MAXCHAN;

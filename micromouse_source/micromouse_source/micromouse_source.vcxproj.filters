@@ -17,6 +17,9 @@
     <ClCompile Include="drive\motor\command\command.cpp">
       <Filter>drive\motor\command</Filter>
     </ClCompile>
+    <ClCompile Include="config\config.cpp">
+      <Filter>config</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="drive">
@@ -36,6 +39,9 @@
     </Filter>
     <Filter Include="drive\motor\command">
       <UniqueIdentifier>{46dc88ff-1158-4419-b2c6-62bad5e3e114}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="config">
+      <UniqueIdentifier>{e2813ff6-34f2-4b94-91d1-1cc11116b86e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -59,6 +65,9 @@
     </ClInclude>
     <ClInclude Include="drive\motor\command\command.h">
       <Filter>drive\motor\command</Filter>
+    </ClInclude>
+    <ClInclude Include="config\config.h">
+      <Filter>config</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

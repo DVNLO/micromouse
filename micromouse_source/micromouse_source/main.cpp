@@ -1,7 +1,10 @@
-#include <wiringPi.h>
-#include <stdio.h>
 #include "drive/motor/motor.h"
 #include "drive/pwm/pwm.h"
+#include "config/config.h"
+#include <stdio.h>
+#include <wiringPi.h>
+#include <wiringPiI2C.h>
+
 
 // LED Pin - wiringPi pin 0 is BCM_GPIO 17.
 // we have to use BCM numbering when initializing with wiringPiSetupSys
@@ -13,7 +16,6 @@
 
 void motorTest()
 {
-	wiringPiSetup();
 	Drive::Motor A;
 	A.setPins(0, 2);
 	A.forward();
@@ -32,46 +34,20 @@ void motorTest()
 
 void pwmTest()
 {
-	Drive::PWM A;
-	A.setup(1);
-	Drive::PWM B(1);
-	std::printf("%f", A.getFrequency());
+	Drive::PWM board;
+	board.setup(Config::PCA9685_DEVICE_ID);
+	board.setFrequency(Drive::PWM::PCA9685_FREQ_MIN);
+	std::printf("%d\n", board.getFrequency());
+	board.setFrequency(Drive::PWM::PCA9685_FREQ_MAX);
+	std::printf("%d\n", board.getFrequency());
+	board.restart();
+	std::printf("%d\n", board.getFrequency());
 }
 
 int main(void)
 {
-	//pwmTest();
+	wiringPiSetup();
+	pwmTest();
 	motorTest();
-	
-	/*
-	printf("Let their be light...\n");
-
-	wiringPiSetupSys();
-	pinMode(LED, OUTPUT);
-
-	int pin = 17;
-	for (int i = 0; i < 60; i++)
-	{
-		printf("%i\n", digitalRead(pin));
-		digitalWrite(LED, HIGH);
-		printf("%i\n", digitalRead(pin));
-		digitalWrite(LED, LOW);
-	}
-	*/
-
-
-	/*
-	for (int i = 0; i < 60; i++)
-	{
-	digitalWrite(LED, HIGH);  // On
-	delay(500); // ms
-	digitalWrite(LED, LOW);	  // Off
-	delay(500);
-	printf("again!\n");
-	}
-
-	printf("and darkness!\n");
-	*/
-
 	return 0;
 }

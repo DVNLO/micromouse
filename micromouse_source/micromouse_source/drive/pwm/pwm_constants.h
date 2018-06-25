@@ -24,12 +24,12 @@ const char Drive::PWM::PCA9685_SWRST = 0x06;
 
 const char Drive::PWM::PCA9685_PRESCALE_MIN = 0x03;
 const char Drive::PWM::PCA9685_PRESCALE_MAX = 0xFF;
-const char Drive::PWM::PCA9685_FREQ_MIN = 24;
-const char Drive::PWM::PCA9685_FREQ_MAX = 1526;
+const int Drive::PWM::PCA9685_FREQ_MIN = 24;
+const int Drive::PWM::PCA9685_FREQ_MAX = 1526;
 
-const char Drive::PWM::PCA9685_COUNTER_RANGE = 4096;
-const char Drive::PWM::PCA9685_DEFAULT_PERIOD = 5000000;	//Default period_ns = 1/200 Hz
-const char Drive::PWM::PCA9685_OSC_CLOCK_MHZ = 25000000;	//Internal oscillator; 25 MHz
+const int Drive::PWM::PCA9685_COUNTER_RANGE = 4096;
+const int Drive::PWM::PCA9685_DEFAULT_PERIOD = 5000000;	//Default period_ns = 1/200 Hz
+const double Drive::PWM::PCA9685_OSC_CLOCK_MHZ = 25000000;	//Internal oscillator; 25 MHz
 
 const char Drive::PWM::PCA9685_NUMREGS = 0xFF;
 const char Drive::PWM::PCA9685_MAXCHAN = 0x10;

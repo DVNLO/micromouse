@@ -51,6 +51,7 @@
     </RemotePostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="config\config.cpp" />
     <ClCompile Include="drive\motor\command\command.cpp" />
     <ClCompile Include="drive\motor\motor.cpp" />
     <ClCompile Include="drive\motor\state\state.cpp" />
@@ -59,6 +60,7 @@
     <ClCompile Include="utility\utility.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="config\config.h" />
     <ClInclude Include="drive\motor\command\command.h" />
     <ClInclude Include="drive\motor\motor.h" />
     <ClInclude Include="drive\motor\motor_constants.h" />

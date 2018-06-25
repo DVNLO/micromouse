@@ -41,7 +41,7 @@ Drive::PWM::PWM(const int& device_id)
 /*
 Sets operating frequency.
 */
-void Drive::PWM::setFrequency(const double& frequency) const
+void Drive::PWM::setFrequency(const int& frequency) const
 {
 	setPreScale(frequency);
 }
@@ -49,15 +49,15 @@ void Drive::PWM::setFrequency(const double& frequency) const
 /*
 Gets the operating frequency.
 */
-double Drive::PWM::getFrequency() const
+int Drive::PWM::getFrequency() const
 {
-	return round(static_cast<double>(PCA9685_OSC_CLOCK_MHZ) / 4096 * (getPreScale() + 1));
+	return static_cast<int>(round(PCA9685_OSC_CLOCK_MHZ / (4096 * (getPreScale() + 1))));
 }
 
 /*
 Sets the Pre Scale register to the operating frequency.
 */
-void Drive::PWM::setPreScale(const double& frequency) const
+void Drive::PWM::setPreScale(const int& frequency) const
 {
 	if (frequency < PCA9685_FREQ_MIN || frequency > PCA9685_FREQ_MAX)
 	{
@@ -114,7 +114,9 @@ Reads an 8 bit register.
 int Drive::PWM::readRegister8(const int& register_address) const
 {
 	int reg_data = wiringPiI2CReadReg8(file_descriptor_, register_address);
-	return reg_data == Utility::WIRING_PI_ERROR ? throw std::runtime_error(FAILURE_TO_READ_REGISTER8) : reg_data;
+	if (reg_data == Utility::WIRING_PI_ERROR)
+		throw std::runtime_error(FAILURE_TO_READ_REGISTER8);
+	return reg_data;
 }
 
 /*
