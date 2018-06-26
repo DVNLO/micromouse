@@ -29,25 +29,21 @@ void motorTest()
 	A.shortBrake();
 	delay(100);
 	A.stop();
-	
 }
 
 void pwmTest()
 {
 	Drive::PWM board;
 	board.setup(Config::PCA9685_DEVICE_ID);
-	board.setFrequency(Drive::PWM::PCA9685_FREQ_MIN);
-	std::printf("%d\n", board.getFrequency());
 	board.setFrequency(Drive::PWM::PCA9685_FREQ_MAX);
 	std::printf("%d\n", board.getFrequency());
-	board.restart();
-	std::printf("%d\n", board.getFrequency());
+	board.setDuty(0, 50);
 }
 
 int main(void)
 {
 	wiringPiSetup();
-	pwmTest();
+	//pwmTest();
 	motorTest();
 	return 0;
 }

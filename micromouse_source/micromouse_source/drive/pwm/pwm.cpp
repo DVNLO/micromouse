@@ -78,26 +78,53 @@ int Drive::PWM::getPreScale() const
 }
 
 /*
+
+*/
+void Drive::PWM::setDuty(const unsigned char& output_channel, const unsigned char& duty_cycle) const
+{
+	if (output_channel < PCA9685_OUTPUT_CHANNEL_MIN || output_channel > PCA9685_OUTPUT_CHANNEL_MAX)
+	{
+		throw std::out_of_range(OUTPUT_CHANNEL_OUT_OF_RANGE);
+	}
+	if (duty_cycle < 0 || duty_cycle > 100)
+	{
+		throw std::out_of_range(DUTY_CYCLE_OUT_OF_RANGE);
+	}
+	unsigned int on_count = lround((static_cast<double>(duty_cycle) / 100) * PCA9685_COUNTER_RANGE);
+	unsigned int channel_address_offset = 4 * output_channel;
+	unsigned char LEDN_ON_H_REG_ADDRESS = static_cast<unsigned char>(PCA9685_REG_LED0_ON_H + channel_address_offset);
+	unsigned char LEDN_ON_L_REG_ADDRESS = static_cast<unsigned char>(PCA9685_REG_LED0_ON_L + channel_address_offset);
+	unsigned char LEDN_OFF_H_REG_ADDRESS = static_cast<unsigned char>(PCA9685_REG_LED0_OFF_H + channel_address_offset);
+	unsigned char LEDN_OFF_L_REG_ADDRESS = static_cast<unsigned char>(PCA9685_REG_LED0_OFF_L + channel_address_offset);
+		
+	writeRegister8(LEDN_ON_L_REG_ADDRESS, 0x00);	//ie: https://www.miniwebtool.com/bitwise-calculator/?data_type=2&number1=10110110&number2=11110000&operator=AND
+	writeRegister8(LEDN_ON_H_REG_ADDRESS, 0x0);	//write 0's on [0:3] for MSB
+
+	writeRegister8(LEDN_OFF_L_REG_ADDRESS, on_count & 0xFF);
+	writeRegister8(LEDN_OFF_H_REG_ADDRESS, on_count >> 8);	//write on_count_msb on [0:3]
+}
+
+/*
 Restarts PCA9685 PWM cycle. Preserves all PWM register contents. 
 */
 void Drive::PWM::restart() const
 {
-	sleep();
+	unsigned char mode1_reg_data = readRegister8(PCA9685_REG_MODE1);
+	if (mode1_reg_data >> 7)
+	{
+		mode1_reg_data &= 0xEF;
+	}
 	delayMicroseconds(500);	//datasheet spec (section 7.3.1.1)
-	writeRegister8(PCA9685_REG_MODE1, readRegister8(PCA9685_REG_MODE1) | PCA9685_MODE1_RESTART);
+	writeRegister8(PCA9685_REG_MODE1, mode1_reg_data);
 }
 
 
 /*
 Puts PCA9685 to sleep, via writing a logical 1 to mode 1 register bit 4.
 */
-bool Drive::PWM::sleep() const
+void Drive::PWM::sleep() const
 {
-	if (!isAsleep())
-	{
-		writeRegister8(PCA9685_REG_MODE1, readRegister8(PCA9685_REG_MODE1) | PCA9685_MODE1_SLEEP);
-	}
-	return isAsleep();
+	writeRegister8(PCA9685_REG_MODE1, readRegister8(PCA9685_REG_MODE1) | PCA9685_MODE1_SLEEP);
 }
 
 /*
@@ -111,9 +138,9 @@ bool Drive::PWM::isAsleep() const
 /*
 Reads an 8 bit register. 
 */
-int Drive::PWM::readRegister8(const int& register_address) const
+unsigned char Drive::PWM::readRegister8(const unsigned char& register_address) const
 {
-	int reg_data = wiringPiI2CReadReg8(file_descriptor_, register_address);
+	unsigned char reg_data = static_cast<unsigned char>(wiringPiI2CReadReg8(file_descriptor_, register_address));
 	if (reg_data == Utility::WIRING_PI_ERROR)
 		throw std::runtime_error(FAILURE_TO_READ_REGISTER8);
 	return reg_data;
@@ -122,7 +149,7 @@ int Drive::PWM::readRegister8(const int& register_address) const
 /*
 Writes 8 bits to a register.
 */
-void Drive::PWM::writeRegister8(const int& register_address, const int& data) const
+void Drive::PWM::writeRegister8(const unsigned char& register_address, const unsigned char& data) const
 {
 	if (wiringPiI2CWriteReg8(file_descriptor_, register_address, data) == Utility::WIRING_PI_ERROR)
 	{
