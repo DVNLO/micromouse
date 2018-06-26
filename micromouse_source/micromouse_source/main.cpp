@@ -1,6 +1,6 @@
-#include "drive/motor/motor.h"
-#include "drive/pwm/pwm.h"
-#include "config/config.h"
+#include "drive/motor/Motor.h"
+#include "drive/pwm/PCA9685.h"
+#include "config/Config.h"
 #include <stdio.h>
 #include <wiringPi.h>
 #include <wiringPiI2C.h>
@@ -16,7 +16,7 @@
 
 void motorTest()
 {
-	Drive::Motor A;
+	drive::motor::Motor A;
 	A.setPins(0, 2);
 	A.forward();
 	delay(1000);
@@ -33,9 +33,9 @@ void motorTest()
 
 void pwmTest()
 {
-	Drive::PWM board;
+	drive::pwm::PCA9685 board;
 	board.setup(Config::PCA9685_DEVICE_ID);
-	board.setFrequency(Drive::PWM::PCA9685_FREQ_MAX);
+	board.setFrequency(drive::pwm::PCA9685::PCA9685_FREQ_MAX);
 	std::printf("%d\n", board.getFrequency());
 	board.setDuty(0, 50);
 }

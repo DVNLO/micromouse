@@ -51,23 +51,23 @@
     </RemotePostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="config\config.cpp" />
-    <ClCompile Include="drive\motor\command\command.cpp" />
-    <ClCompile Include="drive\motor\motor.cpp" />
-    <ClCompile Include="drive\motor\state\state.cpp" />
-    <ClCompile Include="drive\pwm\pwm.cpp" />
+    <ClCompile Include="config\Config.cpp" />
+    <ClCompile Include="drive\motor\command\Command.cpp" />
+    <ClCompile Include="drive\motor\Motor.cpp" />
+    <ClCompile Include="drive\motor\Motor_constants.cpp" />
+    <ClCompile Include="drive\motor\state\State.cpp" />
+    <ClCompile Include="drive\pwm\PCA9685.cpp" />
+    <ClCompile Include="drive\pwm\PCA9685_constants.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="utility\utility.cpp" />
+    <ClCompile Include="utility\Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="config\config.h" />
-    <ClInclude Include="drive\motor\command\command.h" />
-    <ClInclude Include="drive\motor\motor.h" />
-    <ClInclude Include="drive\motor\motor_constants.h" />
-    <ClInclude Include="drive\motor\state\state.h" />
-    <ClInclude Include="drive\pwm\pwm.h" />
-    <ClInclude Include="drive\pwm\pwm_constants.h" />
-    <ClInclude Include="utility\utility.h" />
+    <ClInclude Include="config\Config.h" />
+    <ClInclude Include="drive\motor\command\Command.h" />
+    <ClInclude Include="drive\motor\Motor.h" />
+    <ClInclude Include="drive\motor\state\State.h" />
+    <ClInclude Include="drive\pwm\PCA9685.h" />
+    <ClInclude Include="utility\Utility.h" />
   </ItemGroup>
   <ItemDefinitionGroup />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

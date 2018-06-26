@@ -2,23 +2,29 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="drive\motor\motor.cpp">
-      <Filter>drive\motor</Filter>
-    </ClCompile>
-    <ClCompile Include="drive\motor\state\state.cpp">
-      <Filter>drive\motor\state</Filter>
-    </ClCompile>
-    <ClCompile Include="drive\pwm\pwm.cpp">
+    <ClCompile Include="drive\pwm\PCA9685.cpp">
       <Filter>drive\pwm</Filter>
     </ClCompile>
-    <ClCompile Include="utility\utility.cpp">
-      <Filter>utility</Filter>
+    <ClCompile Include="drive\motor\Motor.cpp">
+      <Filter>drive\motor</Filter>
     </ClCompile>
-    <ClCompile Include="drive\motor\command\command.cpp">
+    <ClCompile Include="drive\motor\Motor_constants.cpp">
+      <Filter>drive\motor</Filter>
+    </ClCompile>
+    <ClCompile Include="drive\motor\state\State.cpp">
+      <Filter>drive\motor\state</Filter>
+    </ClCompile>
+    <ClCompile Include="drive\motor\command\Command.cpp">
       <Filter>drive\motor\command</Filter>
     </ClCompile>
-    <ClCompile Include="config\config.cpp">
+    <ClCompile Include="utility\Utility.cpp">
+      <Filter>utility</Filter>
+    </ClCompile>
+    <ClCompile Include="config\Config.cpp">
       <Filter>config</Filter>
+    </ClCompile>
+    <ClCompile Include="drive\pwm\PCA9685_constants.cpp">
+      <Filter>drive\pwm</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -31,9 +37,6 @@
     <Filter Include="drive\motor\state">
       <UniqueIdentifier>{2295d848-2e38-4dc0-a4fc-5f07c437f9c2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="drive\pwm">
-      <UniqueIdentifier>{ed82e1aa-ec0a-4c25-8e9c-0ebcac737f3f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="utility">
       <UniqueIdentifier>{1db69a28-8b5c-49c4-9d15-3cb16fb3e7f9}</UniqueIdentifier>
     </Filter>
@@ -43,30 +46,30 @@
     <Filter Include="config">
       <UniqueIdentifier>{e2813ff6-34f2-4b94-91d1-1cc11116b86e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="drive\pwm">
+      <UniqueIdentifier>{ed82e1aa-ec0a-4c25-8e9c-0ebcac737f3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="drive\pwm\ledn_reg_addresses">
+      <UniqueIdentifier>{2d2621ad-373c-49c2-b1a9-e11f5dec8a8d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="drive\motor\motor.h">
+    <ClInclude Include="drive\pwm\PCA9685.h">
+      <Filter>drive\pwm</Filter>
+    </ClInclude>
+    <ClInclude Include="drive\motor\Motor.h">
       <Filter>drive\motor</Filter>
     </ClInclude>
-    <ClInclude Include="drive\motor\motor_constants.h">
-      <Filter>drive\motor</Filter>
-    </ClInclude>
-    <ClInclude Include="drive\motor\state\state.h">
+    <ClInclude Include="drive\motor\state\State.h">
       <Filter>drive\motor\state</Filter>
     </ClInclude>
-    <ClInclude Include="drive\pwm\pwm.h">
-      <Filter>drive\pwm</Filter>
-    </ClInclude>
-    <ClInclude Include="drive\pwm\pwm_constants.h">
-      <Filter>drive\pwm</Filter>
-    </ClInclude>
-    <ClInclude Include="utility\utility.h">
-      <Filter>utility</Filter>
-    </ClInclude>
-    <ClInclude Include="drive\motor\command\command.h">
+    <ClInclude Include="drive\motor\command\Command.h">
       <Filter>drive\motor\command</Filter>
     </ClInclude>
-    <ClInclude Include="config\config.h">
+    <ClInclude Include="utility\Utility.h">
+      <Filter>utility</Filter>
+    </ClInclude>
+    <ClInclude Include="config\Config.h">
       <Filter>config</Filter>
     </ClInclude>
   </ItemGroup>

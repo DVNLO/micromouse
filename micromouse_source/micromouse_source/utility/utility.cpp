@@ -1,19 +1,19 @@
-#include "utility.h"
+#include "Utility.h"
 #include <wiringPi.h>
 #include <string>
 
-const std::string Utility::INVALID_DIGITAL_PIN_VALUE = "invalid digital pin value";
-const std::string Utility::INVALID_PIN = "invalid pin";
-const int Utility::GPIO_MIN_PIN_INDEX = 0;
-const int Utility::GPIO_MAX_PIN_INDEX = 40;
-const int Utility::WIRING_PI_ERROR = -1;
+const std::string utility::INVALID_DIGITAL_PIN_VALUE = "invalid digital pin value";
+const std::string utility::INVALID_PIN = "invalid pin";
+const int utility::GPIO_MIN_PIN_INDEX = 0;
+const int utility::GPIO_MAX_PIN_INDEX = 40;
+const int utility::WIRING_PI_ERROR = -1;
 
-bool Utility::isValidDigitalPinValue(const int& pin_value)
+bool utility::isValidDigitalPinValue(const int& pin_value)
 {
 	return ((pin_value == HIGH) || (pin_value == LOW));
 }
 
-bool Utility::isValidPin(const int& pin)
+bool utility::isValidPin(const int& pin)
 {
 	return (pin >= GPIO_MIN_PIN_INDEX && pin <= GPIO_MAX_PIN_INDEX);
 }

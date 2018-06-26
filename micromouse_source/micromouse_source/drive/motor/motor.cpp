@@ -1,6 +1,5 @@
-#include "motor.h"
-#include "motor_constants.h"
-#include "../../utility/utility.h"
+#include "Motor.h"
+#include "../../utility/Utility.h"
 #include <stdexcept>
 #include <wiringPi.h>
 
@@ -8,7 +7,7 @@
 Default constructs a motor object. Initializes class
 data members pin1_ and pin2_ to DEFAULT_PIN.
 */
-Drive::Motor::Motor() 
+drive::motor::Motor::Motor() 
 {
 	pin1_ = DEFAULT_PIN;
 	pin2_ = DEFAULT_PIN;
@@ -17,7 +16,7 @@ Drive::Motor::Motor()
 /*
 Constructs a motor object using pin1 and pin2 arguments.
 */
-Drive::Motor::Motor(const int& pin1, const int& pin2)
+drive::motor::Motor::Motor(const int& pin1, const int& pin2)
 {
 	setPins(pin1, pin2);
 }
@@ -25,7 +24,7 @@ Drive::Motor::Motor(const int& pin1, const int& pin2)
 /*
 Calls setPin() to assign pins to pin1 and pin2.
 */
-void Drive::Motor::setPins(const int& pin1, const int& pin2)
+void drive::motor::Motor::setPins(const int& pin1, const int& pin2)
 {
 	setPin(PIN_ONE_ID, pin1);
 	setPin(PIN_TWO_ID, pin2);
@@ -37,10 +36,10 @@ pin_id to determine which data member to assign pin too.
 Throws invalid_argument exception when an invalid pin
 or an invalid pin_id is found.
 */
-void Drive::Motor::setPin(const int& pin_id, const int& pin)
+void drive::motor::Motor::setPin(const int& pin_id, const int& pin)
 {
-	if (!Utility::isValidPin(pin))
-		throw std::invalid_argument(Utility::INVALID_PIN);
+	if (!utility::isValidPin(pin))
+		throw std::invalid_argument(utility::INVALID_PIN);
 	if (pin_id == PIN_ONE_ID)
 		pin1_ = pin;
 	else if (pin_id == PIN_TWO_ID)
@@ -52,17 +51,17 @@ void Drive::Motor::setPin(const int& pin_id, const int& pin)
 /*
 Returns true when both pins have a value between 0 and 40, inclusive.
 */
-bool Drive::Motor::isInitialized() const
+bool drive::motor::Motor::isInitialized() const
 {
-	return !(pin1_ < Utility::GPIO_MIN_PIN_INDEX || pin1_ > Utility::GPIO_MAX_PIN_INDEX ||
-		pin2_ < Utility::GPIO_MIN_PIN_INDEX || pin2_ > Utility::GPIO_MAX_PIN_INDEX);
+	return !(pin1_ < utility::GPIO_MIN_PIN_INDEX || pin1_ > utility::GPIO_MAX_PIN_INDEX ||
+		pin2_ < utility::GPIO_MIN_PIN_INDEX || pin2_ > utility::GPIO_MAX_PIN_INDEX);
 }
 
 /*
 Validates motor initialization by calliing isInitialized().
 Throws runtime_error if motor is not initialized. 
 */
-void Drive::Motor::validateInitialization() const
+void drive::motor::Motor::validateInitialization() const
 {
 	if (!isInitialized())
 		throw std::runtime_error(INVALID_STATE_PIN_NOT_SET);
@@ -70,20 +69,16 @@ void Drive::Motor::validateInitialization() const
 
 /*
 Returns true when the motor's current state is equal to desired_state.
-Throws a runtime_error exception when states are not equal.
 */
-bool Drive::Motor::isCurrentState(const Drive::State& desired_state) const
+bool drive::motor::Motor::isCurrentState(const drive::motor::State& desired_state) const
 {
-	if (readState() == desired_state)
-		return true;
-	else
-		throw std::runtime_error(INVALID_STATE_DIFFERENCE);
+	return readState() == desired_state;
 }
 
 /*
 Returns State read on pins.
 */
-Drive::State Drive::Motor::readState() const
+drive::motor::State drive::motor::Motor::readState() const
 {
 	validateInitialization();
 	State read_state;
@@ -102,7 +97,7 @@ Drive::State Drive::Motor::readState() const
 /*
 Writes State on digital_pins. 
 */
-void Drive::Motor::writeState(const State& desired_state) const
+void drive::motor::Motor::writeState(const State& desired_state) const
 {
 	validateInitialization();
 	pinMode(pin1_, OUTPUT);
@@ -118,7 +113,7 @@ void Drive::Motor::writeState(const State& desired_state) const
 /*
 Rotates motor forward.
 */
-void Drive::Motor::forward() const
+void drive::motor::Motor::forward() const
 {
 	rotate(FORWARD);
 }
@@ -126,7 +121,7 @@ void Drive::Motor::forward() const
 /*
 Rotates motor backward.
 */
-void Drive::Motor::backward() const
+void drive::motor::Motor::backward() const
 {
 	rotate(BACKWARD);
 }
@@ -134,7 +129,7 @@ void Drive::Motor::backward() const
 /*
 Short brakes motor.
 */
-void Drive::Motor::shortBrake()
+void drive::motor::Motor::shortBrake()
 {
 	rotate(SHORT_BRAKE);
 }
@@ -142,7 +137,7 @@ void Drive::Motor::shortBrake()
 /*
 Stops motor.
 */
-void Drive::Motor::stop() const
+void drive::motor::Motor::stop() const
 {
 	rotate(STOP);
 }
@@ -150,7 +145,7 @@ void Drive::Motor::stop() const
 /*
 Writes a desired_state to the motor.
 */
-void Drive::Motor::rotate(const Drive::State& desired_state) const
+void drive::motor::Motor::rotate(const drive::motor::State& desired_state) const
 {
 	writeState(desired_state);
 }

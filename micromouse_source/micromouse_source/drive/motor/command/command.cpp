@@ -1,15 +1,15 @@
-#include "command.h"
-#include "../motor.h"
-#include "../../../utility/utility.h"
+#include "Command.h"
+#include "../Motor.h"
+#include "../../../utility/Utility.h"
 #include <stdexcept>
 
-Drive::Command::Command()
+drive::motor::Command::Command()
 {
 	speed = Motor::SPEED_CONSTANT;
 	duration = Motor::DURATION_INDEFINITE;	
 }
 
-Drive::Command::Command(const int& desired_speed, const int& desired_duration)
+drive::motor::Command::Command(const int& desired_speed, const int& desired_duration)
 {
 	if (desired_speed >= Motor::SPEED_CONSTANT && 
 		(desired_duration == Motor::DURATION_INDEFINITE || desired_duration > 0))
@@ -23,7 +23,7 @@ Drive::Command::Command(const int& desired_speed, const int& desired_duration)
 	}
 }
 
-bool Drive::operator==(const Drive::Command& left, const Drive::Command& right)
+bool drive::motor::operator==(const drive::motor::Command& left, const drive::motor::Command& right)
 {
 	return !(
 		left.speed != right.speed ||
@@ -31,9 +31,9 @@ bool Drive::operator==(const Drive::Command& left, const Drive::Command& right)
 		);
 }
 
-bool Drive::operator!=(const Drive::Command& left, const Drive::Command& right)
+bool drive::motor::operator!=(const drive::motor::Command& left, const drive::motor::Command& right)
 {
 	return !(left == right);
 }
 
-const std::string Drive::Command::INVALID_COMMAND = "invalid agruments to construct command";
+const std::string drive::motor::Command::INVALID_COMMAND = "invalid agruments to construct command";

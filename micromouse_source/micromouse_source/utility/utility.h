@@ -2,7 +2,7 @@
 #define MICROMOUSE_UTILITY_H
 #include <string>
 
-namespace Utility
+namespace utility
 {
 	bool isValidDigitalPinValue(const int& pin_value);
 	bool isValidPin(const int& pin);
