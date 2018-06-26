@@ -1,13 +1,12 @@
 #include "Motor.h"
-#include <string>
 #include <wiringPi.h>
 
-const int drive::motor::Motor::PIN_ONE_ID = 1;
-const int drive::motor::Motor::PIN_TWO_ID = 2;
+const int_fast8_t drive::motor::Motor::PIN_ONE_ID = 1;
+const int_fast8_t drive::motor::Motor::PIN_TWO_ID = 2;
 
-const int drive::motor::Motor::DEFAULT_PIN = -1;
-const int drive::motor::Motor::SPEED_CONSTANT = -1;
-const int drive::motor::Motor::DURATION_INDEFINITE = -1;
+const int_fast8_t drive::motor::Motor::DEFAULT_PIN = -1;
+const int_fast8_t drive::motor::Motor::SPEED_CONSTANT = -1;
+const int_fast8_t drive::motor::Motor::DURATION_INDEFINITE = -1;
 
 const std::string drive::motor::Motor::INVALID_STATE_PIN_NOT_SET = "invalid state pin not set";
 const std::string drive::motor::Motor::INVALID_STATE_DIFFERENCE = "invalid state (current and desired states differ)";

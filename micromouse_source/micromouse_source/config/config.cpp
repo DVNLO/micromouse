@@ -1,3 +1,3 @@
 #include "Config.h"
 
-const int Config::PCA9685_DEVICE_ID = 0x40;
+const uint_fast8_t Config::PCA9685_DEVICE_ID = 0x40;

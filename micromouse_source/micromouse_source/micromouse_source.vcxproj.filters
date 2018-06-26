@@ -26,6 +26,9 @@
     <ClCompile Include="drive\pwm\PCA9685_constants.cpp">
       <Filter>drive\pwm</Filter>
     </ClCompile>
+    <ClCompile Include="drive\pwm\PCA9685_ledn_reg_addresses\PCA9685_LEDn_reg_addresses.cpp">
+      <Filter>drive\pwm\ledn_reg_addresses</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="drive">
@@ -71,6 +74,9 @@
     </ClInclude>
     <ClInclude Include="config\Config.h">
       <Filter>config</Filter>
+    </ClInclude>
+    <ClInclude Include="drive\pwm\PCA9685_ledn_reg_addresses\PCA9685_LEDn_reg_addresses.h">
+      <Filter>drive\pwm\ledn_reg_addresses</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,6 +1,7 @@
 #ifndef MICROMOUSE_MOTOR_H
 #define MICROMOUSE_MOTOR_H
 #include "state/State.h"
+#include <cstdint>
 #include <string>
 
 namespace drive
@@ -11,9 +12,9 @@ namespace drive
 		{
 		public:
 			Motor();
-			Motor(const int& pin1, const int& pin2);
-			void setPins(const int& pin1, const int& pin2);
-			void setPin(const int& pin_id, const int& pin);
+			Motor(const int_fast8_t& pin1, const int_fast8_t& pin2);
+			void setPins(const int_fast8_t& pin1, const int_fast8_t& pin2);
+			void setPin(const int_fast8_t& pin_id, const int_fast8_t& pin);
 
 			void forward() const;
 			void backward() const;
@@ -21,8 +22,8 @@ namespace drive
 			void stop() const;
 
 		private:
-			int pin1_;
-			int pin2_;
+			int_fast8_t pin1_;
+			int_fast8_t pin2_;
 
 			bool isInitialized() const;
 			void validateInitialization() const;
@@ -34,14 +35,12 @@ namespace drive
 			void rotate(const drive::motor::State& desired_state) const;
 
 		public:
-			const static int PIN_ONE_ID;
-			const static int PIN_TWO_ID;
+			const static int_fast8_t PIN_ONE_ID;
+			const static int_fast8_t PIN_TWO_ID;
 
-			const static int DEFAULT_PIN;
-			const static int ROTATE_FORWARD_CCW;
-			const static int ROTATE_BACKWARD_CW;
-			const static int SPEED_CONSTANT;
-			const static int DURATION_INDEFINITE;
+			const static int_fast8_t DEFAULT_PIN;
+			const static int_fast8_t SPEED_CONSTANT;
+			const static int_fast8_t DURATION_INDEFINITE;
 
 			const static std::string INVALID_STATE_PIN_NOT_SET;
 			const static std::string INVALID_STATE_DIFFERENCE;

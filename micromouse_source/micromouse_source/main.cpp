@@ -38,12 +38,13 @@ void pwmTest()
 	board.setFrequency(drive::pwm::PCA9685::PCA9685_FREQ_MAX);
 	std::printf("%d\n", board.getFrequency());
 	board.setDuty(0, 50);
+	std::printf("%d\n", board.getDuty(0));
 }
 
 int main(void)
 {
 	wiringPiSetup();
-	//pwmTest();
-	motorTest();
+	pwmTest();
+	//motorTest();
 	return 0;
 }

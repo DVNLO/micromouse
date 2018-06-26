@@ -16,7 +16,7 @@ drive::motor::Motor::Motor()
 /*
 Constructs a motor object using pin1 and pin2 arguments.
 */
-drive::motor::Motor::Motor(const int& pin1, const int& pin2)
+drive::motor::Motor::Motor(const int_fast8_t& pin1, const int_fast8_t& pin2)
 {
 	setPins(pin1, pin2);
 }
@@ -24,7 +24,7 @@ drive::motor::Motor::Motor(const int& pin1, const int& pin2)
 /*
 Calls setPin() to assign pins to pin1 and pin2.
 */
-void drive::motor::Motor::setPins(const int& pin1, const int& pin2)
+void drive::motor::Motor::setPins(const int_fast8_t& pin1, const int_fast8_t& pin2)
 {
 	setPin(PIN_ONE_ID, pin1);
 	setPin(PIN_TWO_ID, pin2);
@@ -36,7 +36,7 @@ pin_id to determine which data member to assign pin too.
 Throws invalid_argument exception when an invalid pin
 or an invalid pin_id is found.
 */
-void drive::motor::Motor::setPin(const int& pin_id, const int& pin)
+void drive::motor::Motor::setPin(const int_fast8_t& pin_id, const int_fast8_t& pin)
 {
 	if (!utility::isValidPin(pin))
 		throw std::invalid_argument(utility::INVALID_PIN);
@@ -84,8 +84,8 @@ drive::motor::State drive::motor::Motor::readState() const
 	State read_state;
 	try
 	{
-		read_state.pin1_value = digitalRead(pin1_);
-		read_state.pin2_value = digitalRead(pin2_);
+		read_state.setPin1(static_cast<uint_fast8_t>(digitalRead(pin1_)));
+		read_state.setPin2(static_cast<uint_fast8_t>(digitalRead(pin2_)));
 	}
 	catch (...)
 	{
@@ -102,8 +102,8 @@ void drive::motor::Motor::writeState(const State& desired_state) const
 	validateInitialization();
 	pinMode(pin1_, OUTPUT);
 	pinMode(pin2_, OUTPUT);
-	digitalWrite(pin1_, desired_state.pin1_value);
-	digitalWrite(pin2_, desired_state.pin2_value);
+	digitalWrite(pin1_, desired_state.getPin1());
+	digitalWrite(pin2_, desired_state.getPin2());
 	if (!isCurrentState(desired_state))
 	{
 		throw std::runtime_error(FAILURE_TO_WRITE_STATE);
