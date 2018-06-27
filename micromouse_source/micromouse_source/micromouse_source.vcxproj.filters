@@ -29,6 +29,12 @@
     <ClCompile Include="drive\pwm\PCA9685_ledn_reg_addresses\PCA9685_LEDn_reg_addresses.cpp">
       <Filter>drive\pwm\ledn_reg_addresses</Filter>
     </ClCompile>
+    <ClCompile Include="sense\VL6180X.cpp">
+      <Filter>sense</Filter>
+    </ClCompile>
+    <ClCompile Include="sense\VL6180X_constants.cpp">
+      <Filter>sense</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="drive">
@@ -55,6 +61,9 @@
     <Filter Include="drive\pwm\ledn_reg_addresses">
       <UniqueIdentifier>{2d2621ad-373c-49c2-b1a9-e11f5dec8a8d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="sense">
+      <UniqueIdentifier>{acaac66d-b4d1-44dd-877c-f0d4709c7179}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="drive\pwm\PCA9685.h">
@@ -77,6 +86,9 @@
     </ClInclude>
     <ClInclude Include="drive\pwm\PCA9685_ledn_reg_addresses\PCA9685_LEDn_reg_addresses.h">
       <Filter>drive\pwm\ledn_reg_addresses</Filter>
+    </ClInclude>
+    <ClInclude Include="sense\VL6180X.h">
+      <Filter>sense</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

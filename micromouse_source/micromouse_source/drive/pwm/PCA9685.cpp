@@ -34,7 +34,7 @@ drive::pwm::PCA9685::PCA9685(const uint_fast8_t& device_id)
 	file_descriptor_ = wiringPiI2CSetup(device_id);
 	if (file_descriptor_ == utility::WIRING_PI_ERROR)
 	{
-		throw std::runtime_error(FAILURE_TO_SETUP_I2C);
+		throw std::runtime_error(utility::FAILURE_TO_SETUP_I2C);
 	}
 }
 
@@ -51,7 +51,7 @@ Gets the operating frequency.
 */
 uint_fast16_t drive::pwm::PCA9685::getFrequency() const
 {
-	return static_cast<uint_fast16_t>(round(PCA9685_OSC_CLOCK_MHZ / (4096 * (getPreScale() + 1))));
+	return static_cast<uint_fast16_t>(round(OSC_CLOCK_MHZ / (4096 * (getPreScale() + 1))));
 }
 
 /*
@@ -59,14 +59,15 @@ Sets the Pre Scale register to the operating frequency.
 */
 void drive::pwm::PCA9685::setPreScale(const uint_fast16_t& frequency) const
 {
-	if (frequency < PCA9685_FREQ_MIN || frequency > PCA9685_FREQ_MAX)
+	if (frequency < FREQ_MIN || frequency > FREQ_MAX)
 	{
 		throw std::invalid_argument(INVALID_FREQUENCY);
 	}
 	sleep();
-	writeRegister8(PCA9685_REG_PRESCALE, 
-		static_cast<uint_fast8_t>(lround(PCA9685_OSC_CLOCK_MHZ / (4096 * frequency)) - 1));
-	restart();
+	delayMicroseconds(500);	//datasheet spec (section 7.3.1.1)
+	writeRegister8(REG_PRESCALE, 
+		static_cast<uint_fast8_t>(lround(OSC_CLOCK_MHZ / (4096 * frequency)) - 1));
+	wake();
 }
 
 /*
@@ -74,7 +75,7 @@ Returns a value read from the prescale register.
 */
 uint_fast8_t drive::pwm::PCA9685::getPreScale() const
 {
-	return readRegister8(PCA9685_REG_PRESCALE);
+	return readRegister8(REG_PRESCALE);
 }
 
 /*
@@ -91,7 +92,7 @@ void drive::pwm::PCA9685::setDuty(const uint_fast8_t& output_channel, const uint
 		throw std::out_of_range(DUTY_CYCLE_OUT_OF_RANGE);
 	}
 	uint_fast16_t on_count = static_cast<uint_fast16_t>(
-		lround((static_cast<double>(duty_cycle) / 100) * PCA9685_COUNTER_RANGE));
+		lround((static_cast<double>(duty_cycle) / 100) * COUNTER_RANGE));
 	
 	drive::pwm::PCA9685_LEDn_reg_addresses address_packet(output_channel);
 	
@@ -115,7 +116,7 @@ uint_fast8_t drive::pwm::PCA9685::getDuty(const uint_fast8_t& output_channel) co
 	uint_fast16_t OFF = readRegister8(address_packet.get_OFF_H()) << 8;
 	OFF += readRegister8(address_packet.get_OFF_L());
 	return static_cast<uint_fast8_t>(
-		lround((100 * (static_cast<double>(OFF - ON))) / PCA9685_COUNTER_RANGE));
+		lround((100 * (static_cast<double>(OFF - ON))) / COUNTER_RANGE));
 }
 
 /*
@@ -123,19 +124,12 @@ Restarts PCA9685 PWM cycle. Preserves all PWM register contents.
 */
 void drive::pwm::PCA9685::restart() const
 {
-	uint_fast8_t mode1_reg_data = readRegister8(PCA9685_REG_MODE1);
-	if (!(mode1_reg_data & PCA9685_MODE1_RESTART))
+	uint_fast8_t mode1_reg_data = readRegister8(REG_MODE1);
+	if (mode1_reg_data & MODE1_RESTART)
 	{
-		mode1_reg_data = static_cast<uint_fast8_t>(mode1_reg_data | PCA9685_MODE1_RESTART);
-		writeRegister8(PCA9685_REG_MODE1, mode1_reg_data);
+		mode1_reg_data = static_cast<uint_fast8_t>(mode1_reg_data & (!MODE1_SLEEP));
 		delayMicroseconds(500);	//datasheet spec (section 7.3.1.1)
-		mode1_reg_data = readRegister8(PCA9685_REG_MODE1);
-	}
-	if (mode1_reg_data & PCA9685_MODE1_RESTART)
-	{
-		mode1_reg_data = static_cast<uint_fast8_t>(mode1_reg_data & (!PCA9685_MODE1_SLEEP));
-		delayMicroseconds(500);	//datasheet spec (section 7.3.1.1)
-		writeRegister8(PCA9685_REG_MODE1, mode1_reg_data);
+		writeRegister8(REG_MODE1, mode1_reg_data);
 	}
 }
 
@@ -145,9 +139,19 @@ Puts PCA9685 to sleep, via writing a logical 1 to mode 1 register bit 4.
 */
 void drive::pwm::PCA9685::sleep() const
 {
-	uint_fast8_t mode1_reg_data = readRegister8(PCA9685_REG_MODE1);
-	mode1_reg_data = static_cast<uint_fast8_t>(mode1_reg_data | PCA9685_MODE1_SLEEP);
-	writeRegister8(PCA9685_REG_MODE1, mode1_reg_data);
+	uint_fast8_t mode1_reg_data = readRegister8(REG_MODE1);
+	mode1_reg_data = static_cast<uint_fast8_t>(mode1_reg_data | MODE1_SLEEP);
+	writeRegister8(REG_MODE1, mode1_reg_data);
+}
+
+/*
+Wakes PCA9685, via writing a logical 0 to mode 1 register bit 4.
+*/
+void drive::pwm::PCA9685::wake() const
+{
+	uint_fast8_t mode1_reg_data = readRegister8(REG_MODE1);
+	mode1_reg_data = static_cast<uint_fast8_t>(mode1_reg_data & !MODE1_SLEEP);
+	writeRegister8(REG_MODE1, mode1_reg_data);
 }
 
 /*
@@ -155,7 +159,7 @@ Returns true when PCA9685 is asleep.
 */
 bool drive::pwm::PCA9685::isAsleep() const
 {
-	return readRegister8(PCA9685_REG_MODE1) & PCA9685_MODE1_SLEEP;
+	return readRegister8(REG_MODE1) & MODE1_SLEEP;
 }
 
 /*
@@ -163,7 +167,7 @@ Returns true when output_channel is between PCA9685_OUTPUT_CHANNEL_MIN and PCA96
 */
 bool drive::pwm::PCA9685::isValidOutputChannel(const uint_fast8_t& output_channel)
 {
-	return !(output_channel < PCA9685_OUTPUT_CHANNEL_MIN || output_channel > PCA9685_OUTPUT_CHANNEL_MAX);
+	return !(output_channel < OUTPUT_CHANNEL_MIN || output_channel > OUTPUT_CHANNEL_MAX);
 }
 
 /*
@@ -181,7 +185,7 @@ uint_fast8_t drive::pwm::PCA9685::readRegister8(const uint_fast8_t& register_add
 {
 	uint_fast8_t reg_data = static_cast<uint_fast8_t>(wiringPiI2CReadReg8(file_descriptor_, register_address));
 	if (reg_data == utility::WIRING_PI_ERROR)
-		throw std::runtime_error(FAILURE_TO_READ_REGISTER8);
+		throw std::runtime_error(utility::FAILURE_TO_READ_REGISTER8);
 	return reg_data;
 }
 
@@ -192,6 +196,6 @@ void drive::pwm::PCA9685::writeRegister8(const uint_fast8_t& register_address, c
 {
 	if (wiringPiI2CWriteReg8(file_descriptor_, register_address, data) == utility::WIRING_PI_ERROR)
 	{
-		throw std::runtime_error(FAILURE_TO_WRITE_REGISTER8);
+		throw std::runtime_error(utility::FAILURE_TO_WRITE_REGISTER8);
 	}
 }

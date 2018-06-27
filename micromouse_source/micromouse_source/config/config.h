@@ -5,6 +5,7 @@
 namespace Config
 {
 	const extern uint_fast8_t PCA9685_DEVICE_ID;
+	const extern uint_fast8_t VL6180X_DEVICE_ID;
 }
 
 #endif // MICROMOUSE_CONFIG_H

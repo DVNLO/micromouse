@@ -35,7 +35,7 @@ void pwmTest()
 {
 	drive::pwm::PCA9685 board;
 	board.setup(Config::PCA9685_DEVICE_ID);
-	board.setFrequency(drive::pwm::PCA9685::PCA9685_FREQ_MAX);
+	board.setFrequency(drive::pwm::PCA9685::FREQ_MAX);
 	std::printf("%d\n", board.getFrequency());
 	board.setDuty(0, 50);
 	std::printf("%d\n", board.getDuty(0));

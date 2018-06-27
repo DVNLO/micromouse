@@ -60,6 +60,8 @@
     <ClCompile Include="drive\pwm\PCA9685_constants.cpp" />
     <ClCompile Include="drive\pwm\PCA9685_ledn_reg_addresses\PCA9685_LEDn_reg_addresses.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="sense\VL6180X.cpp" />
+    <ClCompile Include="sense\VL6180X_constants.cpp" />
     <ClCompile Include="utility\Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -69,6 +71,7 @@
     <ClInclude Include="drive\motor\state\State.h" />
     <ClInclude Include="drive\pwm\PCA9685.h" />
     <ClInclude Include="drive\pwm\PCA9685_ledn_reg_addresses\PCA9685_LEDn_reg_addresses.h" />
+    <ClInclude Include="sense\VL6180X.h" />
     <ClInclude Include="utility\Utility.h" />
   </ItemGroup>
   <ItemDefinitionGroup />
